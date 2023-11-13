@@ -43,12 +43,12 @@ public class MeasurerApp extends Application
         inputBox.setStyle("-fx-background-color: #f0f0f0;"); // колір
 
         // текстові лейбли (ініціалізація)
-        nameLabel = new Label("Name:");
-        unitLabel = new Label("Measuring Unit:");
-        lowerLimitLabel = new Label("Lower Limit:");
-        upperLimitLabel = new Label("Upper Limit:");
-        inaccuracyLabel = new Label("Inaccuracy:");
-        statusLabel = new Label("Status:");
+        nameLabel = new Label("Назва:");
+        unitLabel = new Label("Одиниця вимірювання:");
+        lowerLimitLabel = new Label("Нижня границя:");
+        upperLimitLabel = new Label("Верхня границя:");
+        inaccuracyLabel = new Label("Похибка:");
+        statusLabel = new Label("Статус:");
 
         // поля вводу (ініціалізація)
         nameField = new TextField();
@@ -59,9 +59,9 @@ public class MeasurerApp extends Application
         statusField = new TextField();
 
         // кнопки (ініціалізація)
-        createButton = new Button("Create Measurer");
-        getInfoButton = new Button("Get Info");
-        updateButton = new Button("Update Measurer");
+        createButton = new Button("Створити прилад");
+        getInfoButton = new Button("Інфо");
+        updateButton = new Button("Оновити статус");
 
         // визначення функцій для кнопок
         createButton.setOnAction(e -> createMeasurer());
@@ -75,7 +75,7 @@ public class MeasurerApp extends Application
 
         // ініціалізація комбобоксу
         measurerComboBox = new ComboBox<>();
-        measurerComboBox.setPromptText("Select Measurer");
+        measurerComboBox.setPromptText("Оберіть прилад");
 
         // вертикальний бокс для комбобоксу
         VBox comboBoxBox = new VBox(10);
@@ -104,13 +104,13 @@ public class MeasurerApp extends Application
         if (name.isEmpty() || unit.isEmpty() || lowerLimitField.getText().isEmpty() ||
                 upperLimitField.getText().isEmpty() || inaccuracyField.getText().isEmpty() || status.isEmpty())
         {
-            showError("All fields must be filled in.");
+            showError("Всі поля мають бути заповнені.");
             return;
         }
 
         if (getMeasurerByName(name) != null) // якщо такий прилад вже існує (бо пошук за іменем)
         {
-            showError("Measurer with this name already exists.");
+            showError("Прилад з таким ім'ям вже існує.");
             return;
         }
 
@@ -120,7 +120,7 @@ public class MeasurerApp extends Application
         }
         catch (NumberFormatException e)
         {
-            showError("Lower limit must be a number.");
+            showError("Нижня границя має бути числом.");
             return;
         }
 
@@ -130,7 +130,7 @@ public class MeasurerApp extends Application
         }
         catch (NumberFormatException e)
         {
-            showError("Upper limit must be a number.");
+            showError("Верхня границя має бути числом.");
             return;
         }
 
@@ -140,7 +140,7 @@ public class MeasurerApp extends Application
         }
         catch (NumberFormatException e)
         {
-            showError("Inaccuracy must be a number.");
+            showError("Похибка має бути число.");
             return;
         }
 
@@ -166,14 +166,14 @@ public class MeasurerApp extends Application
         {
             // виведення інформації про обраний прилад в окремому вікні
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Measurer Info");
+            alert.setTitle("Інформація про прилад");
             alert.setHeaderText(null);
-            alert.setContentText("Name: " + selectedMeasurer.getName() + "\n" +
-                    "Measuring Unit: " + selectedMeasurer.getUnit() + "\n" +
-                    "Lower Limit: " + selectedMeasurer.getLowerLimit() + "\n" +
-                    "Upper Limit: " + selectedMeasurer.getUpperLimit() + "\n" +
-                    "Inaccuracy: " + selectedMeasurer.getInaccuracy() + "\n" +
-                    "Status: " + selectedMeasurer.getStatus());
+            alert.setContentText("Назва: " + selectedMeasurer.getName() + "\n" +
+                    "Одиниця вимірювання: " + selectedMeasurer.getUnit() + "\n" +
+                    "Нижня границя: " + selectedMeasurer.getLowerLimit() + "\n" +
+                    "Верхня границя: " + selectedMeasurer.getUpperLimit() + "\n" +
+                    "Похибка: " + selectedMeasurer.getInaccuracy() + "\n" +
+                    "Статус: " + selectedMeasurer.getStatus());
             alert.showAndWait();
         }
     }
@@ -186,9 +186,9 @@ public class MeasurerApp extends Application
         {
             // виведення діалогового вікна для оновлення статусу приладу
             TextInputDialog dialog = new TextInputDialog(selectedMeasurer.getStatus());
-            dialog.setTitle("Update Measurer Status");
+            dialog.setTitle("Оновити статус приладу");
             dialog.setHeaderText(null);
-            dialog.setContentText("Enter new status:");
+            dialog.setContentText("Введіть новий статус:");
 
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(newStatus -> selectedMeasurer.setStatus(newStatus));
