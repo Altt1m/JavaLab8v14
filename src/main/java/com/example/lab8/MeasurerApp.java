@@ -18,7 +18,7 @@ public class MeasurerApp extends Application
     private ComboBox<String> measurerComboBox; // комбобокс для вибору приладу
     private Label nameLabel, unitLabel, lowerLimitLabel, upperLimitLabel, inaccuracyLabel, statusLabel; // текст
     private TextField nameField, unitField, lowerLimitField, upperLimitField, inaccuracyField, statusField; // поля
-    private Button createButton, getInfoButton, updateButton; // кнопки
+    private Button createButton, removeButton, getInfoButton, updateButton; // кнопки
 
     public static void main(String[] args) // Запуск
     {
@@ -30,8 +30,8 @@ public class MeasurerApp extends Application
     {
         // Налаштування вікна
         primaryStage.setTitle("Лабораторна №8 АС-221 Мельник");
-        primaryStage.setWidth(400);
-        primaryStage.setHeight(570);
+        primaryStage.setWidth(430);
+        primaryStage.setHeight(500);
 
         // Створення екрану і сцени
         BorderPane borderPane = new BorderPane();
@@ -60,31 +60,32 @@ public class MeasurerApp extends Application
 
         // кнопки (ініціалізація)
         createButton = new Button("Створити прилад");
+        removeButton = new Button("Видалити прилад");
         getInfoButton = new Button("Інфо");
         updateButton = new Button("Оновити статус");
 
         // визначення функцій для кнопок
         createButton.setOnAction(e -> createMeasurer());
+        removeButton.setOnAction(e -> removeMeasurer());
         getInfoButton.setOnAction(e -> displayMeasurerInfo());
         updateButton.setOnAction(e -> updateMeasurer());
-
-        // додавання об'єктів у вертикальний бокс
-        inputBox.getChildren().addAll(nameLabel, nameField, unitLabel, unitField, lowerLimitLabel, lowerLimitField,
-                upperLimitLabel, upperLimitField, inaccuracyLabel, inaccuracyField, statusLabel, statusField,
-                createButton, getInfoButton, updateButton);
 
         // ініціалізація комбобоксу
         measurerComboBox = new ComboBox<>();
         measurerComboBox.setPromptText("Оберіть прилад");
 
-        // вертикальний бокс для комбобоксу
-        VBox comboBoxBox = new VBox(10);
-        comboBoxBox.getChildren().addAll(measurerComboBox);
-        comboBoxBox.setPadding(new Insets(10));
+        // горизонтальний бокс для кнопок
+        HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().addAll(createButton, removeButton, getInfoButton, updateButton);
+
+        // додавання об'єктів у вертикальний бокс
+        inputBox.getChildren().addAll(
+                nameLabel, nameField, unitLabel, unitField, lowerLimitLabel, lowerLimitField,
+                upperLimitLabel, upperLimitField, inaccuracyLabel, inaccuracyField, statusLabel, statusField,
+                buttonBox, measurerComboBox);
 
         // встановлення верт.боксів у головному контейнері
         borderPane.setCenter(inputBox);
-        borderPane.setBottom(comboBoxBox);
 
         // встановлення сцени
         primaryStage.setScene(scene);
@@ -156,6 +157,12 @@ public class MeasurerApp extends Application
         upperLimitField.clear();
         inaccuracyField.clear();
         statusField.clear();
+    }
+
+    private void removeMeasurer()
+    {
+        String selectedName = measurerComboBox.getValue();
+        measurerComboBox.getItems().remove(selectedName);
     }
 
     private void displayMeasurerInfo() // виведення інформації про прилад
